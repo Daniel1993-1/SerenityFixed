@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primario / acción -->
+    <color name="primary">#1B7A8A</color>
+    <!-- Éxito / bienestar -->
+    <color name="success">#4E7C5F</color>
+    <!-- Fondo claro -->
+    <color name="background_light">#F4EFE6</color>
+    <!-- Fondo oscuro -->
+    <color name="background_dark">#1A1816</color>
+    <!-- Superficies -->
+    <color name="surface">#E8E2D9</color>
+    <!-- Acento reflexión -->
+    <color name="accent_reflection">#8B8AAF</color>
+    <!-- Alerta suave -->
+    <color name="alert_soft">#C47B2B</color>
+    <!-- Texto principal -->
+    <color name="text_primary">#2C2620</color>
+</resources>
