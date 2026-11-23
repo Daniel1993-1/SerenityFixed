@@ -81,5 +81,45 @@ class MoodViewModel : ViewModel() {
         loaded = false; userName = ""
         moodHistory.clear(); gad7Results.clear(); pss10Results.clear(); phq9Results.clear()
     }
+    fun deleteAccount(onSuccess: () -> Unit, onError: (String) -> Unit) {
+        val user = auth.currentUser
+        val uid = user?.uid
+
+        if (user == null || uid == null) {
+            onError("No hay usuario autenticado.")
+            return
+        }
+
+        viewModelScope.launch {
+            try {
+                // 1. Eliminar las subcolecciones de Firestore (Moods, Gad7, Phq9, Pss10)
+                // NOTA: Firestore no borra subcolecciones automáticamente, hay que borrar los documentos.
+                val collections = listOf("moods", "gad7_results", "phq9_results", "pss10_results")
+                for (col in collections) {
+                    val snapshot = db.collection("users").document(uid).collection(col).get().await()
+                    for (doc in snapshot.documents) {
+                        doc.reference.delete().await()
+                    }
+                }
+
+                // 2. Eliminar el documento principal del usuario
+                db.collection("users").document(uid).delete().await()
+
+                // 3. Eliminar el usuario de Firebase Authentication
+                user.delete().await()
+
+                // 4. Limpiar estado local y avisar éxito
+                clearOnLogout()
+                onSuccess()
+            } catch (e: Exception) {
+                // Manejar el error de "reautenticación" (Firebase exige login reciente para borrar cuentas)
+                if (e.message?.contains("recent-login") == true || e.message?.contains("requires-recent-login") == true) {
+                    onError("Por seguridad, debes cerrar sesión y volver a iniciar sesión antes de eliminar tu cuenta.")
+                } else {
+                    onError("Error al eliminar la cuenta: ${e.message}")
+                }
+            }
+        }
+    }
 
 }

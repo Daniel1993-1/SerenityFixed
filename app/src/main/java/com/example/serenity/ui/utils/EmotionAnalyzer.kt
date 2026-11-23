@@ -5,43 +5,46 @@ import com.example.serenity.data.model.Mood
 object EmotionAnalyzer {
 
     fun analyzeMood(moods: List<Mood>): String {
-
         if (moods.isEmpty()) {
-            return "Aún no hay datos emocionales."
+            return "Aún no hay datos emocionales. ¡Registra cómo te sientes!"
         }
 
-        val values = moods.map {
-            when (it.emotion) {
-                "Feliz"   -> 5
-                "Bien"    -> 4
-                "Neutral" -> 3
-                "Triste"  -> 2
-                "Ansioso" -> 1
-                else      -> 0
-            }
+        // 1. Analizar el estado ACTUAL (la última cara seleccionada)
+        val lastMood = moods.last()
+        val currentAnalysis = when (lastMood.emotion) {
+            "Feliz"   -> "😀 Actualmente te sientes feliz."
+            "Bien"    -> "🙂 Actualmente te sientes bien."
+            "Neutral" -> "😐 Actualmente te sientes neutral."
+            "Triste"  -> "😔 Actualmente te sientes triste."
+            "Ansioso" -> "😰 Actualmente te sientes ansioso."
+            else      -> "Registraste un estado de ánimo."
         }
 
-        val average = values.average()
+        // 2. Analizar la TENDENCIA (comparar la última cara con la penúltima)
+        val trend = if (moods.size >= 2) {
+            val prevMood = moods[moods.size - 2]
+            val prevValue = getMoodValue(prevMood.emotion)
+            val lastValue = getMoodValue(lastMood.emotion)
 
-        val trend = if (values.size >= 2) {
-            val first = values.first()
-            val last  = values.last()
             when {
-                last > first -> "📈 Tu estado emocional está mejorando."
-                last < first -> "📉 Tu estado emocional ha disminuido."
-                else         -> "➡ Tu estado emocional se mantiene estable."
+                lastValue > prevValue -> "📈 Tu estado emocional ha mejorado respecto al registro anterior."
+                lastValue < prevValue -> "📉 Tu estado emocional ha disminuido respecto al registro anterior. Recuerda que es normal tener altibajos."
+                else                  -> "➡ Tu estado emocional se mantiene estable respecto al registro anterior."
             }
         } else {
-            ""
+            "Registra otro estado de ánimo para ver tu evolución."
         }
 
-        val analysis = when {
-            average >= 4 -> "😀 Tu estado emocional es positivo esta semana."
-            average >= 3 -> "🙂 Tu estado emocional es estable."
-            average >= 2 -> "😐 Se detectan señales de estrés. Considera descansar o hacer ejercicio."
-            else         -> "😔 Tu estado emocional está bajo. Se recomienda hablar con alguien o practicar relajación."
-        }
+        return "$currentAnalysis\n$trend"
+    }
 
-        return "$analysis\n$trend"
+    // Función auxiliar para asignar valores numéricos
+    private fun getMoodValue(emotion: String): Int = when (emotion) {
+        "Feliz"   -> 5
+        "Bien"    -> 4
+        "Neutral" -> 3
+        "Triste"  -> 2
+        "Ansioso" -> 1
+        else      -> 0
     }
 }

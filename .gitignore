@@ -13,3 +13,11 @@
 .externalNativeBuild
 .cxx
 local.properties
+# Archivos de Firebase y pruebas de seguridad
+app/google-services.json
+.firebaserc
+firestore-debug.log
+firestore.rules.txt
+security-tests/node_modules/
+.idea/
+

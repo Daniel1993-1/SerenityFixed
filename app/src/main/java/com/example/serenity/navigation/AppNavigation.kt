@@ -95,11 +95,17 @@ fun AppNavigation(modifier: Modifier = Modifier) {
                 HomeScreen(
                     onGoToGAD7  = { navController.navigate("gad7") },
                     onGoToPSS10 = { navController.navigate("pss10") },
-                    onGoToPHQ9  = { navController.navigate("phq9") }
+                    onGoToPHQ9  = { navController.navigate("phq9") },
+                    onGoToAudio = { navController.navigate("audio") }
                 )
             }
             composable("progress")  { ProgressScreen() }
             composable("resources") { ResourcesScreen() }
+            composable("audio") {
+                com.example.serenity.ui.audio.AudioTherapyScreen(
+                    onBack = { navController.popBackStack() }
+                )
+            }
             composable("profile") {
                 ProfileScreen(onLogout = { navController.navigate("login") { popUpTo("home") { inclusive = true } } })
             }

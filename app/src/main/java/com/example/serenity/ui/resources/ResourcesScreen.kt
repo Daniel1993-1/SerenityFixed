@@ -54,7 +54,7 @@ private val guides = listOf(
             GuideStep("5️⃣", "Exhala 8 segundos", "Exhala completamente por la boca contando: 1... 2... 3... 4... 5... 6... 7... 8. Siente como la tension abandona tu cuerpo."),
             GuideStep("🔁", "Repite 4 veces", "Ese es un ciclo completo. Repite 3 ciclos mas (4 en total). Con la practica regular, aumenta a 8 ciclos. Practica minimo 2 veces al dia.")
         ),
-        scienceNote = "Una revision sistematica (PRISMA 2025, 15 estudios) confirma que la tecnica 4-7-8 activa el nervio vago, mejora la variabilidad de frecuencia cardiaca y reduce significativamente ansiedad y estres. Efectiva tanto en poblacion clinica como general.",
+        scienceNote = "Una revisión sistemática (Zaccaro et al., 2018) confirma que la respiración lenta (como la técnica 4-7-8) activa el nervio vago, mejora la variabilidad de la frecuencia cardíaca y reduce los síntomas de ansiedad y estrés.",
         tip         = "El momento ideal: justo antes de dormir y cuando sientas que la ansiedad sube. A las 2 semanas de practica diaria los efectos se vuelven notables."
     ),
 

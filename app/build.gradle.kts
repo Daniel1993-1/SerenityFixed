@@ -60,6 +60,8 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("androidx.compose.material:material-icons-extended")
+    // Librería para reproducir audio (528 Hz)
+    implementation("androidx.media3:media3-exoplayer:1.3.1")
     implementation("androidx.compose.ui:ui-text-google-fonts")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

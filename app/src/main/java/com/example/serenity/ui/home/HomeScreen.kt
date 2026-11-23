@@ -50,7 +50,8 @@ fun HomeScreen(
     viewModel: MoodViewModel = viewModel(),
     onGoToGAD7:  () -> Unit = {},
     onGoToPSS10: () -> Unit = {},
-    onGoToPHQ9:  () -> Unit = {}
+    onGoToPHQ9:  () -> Unit = {},
+    onGoToAudio: () -> Unit = {}
 ) {
     val userName        = viewModel.userName.split(" ").firstOrNull() ?: ""
     var selectedEmotion by remember { mutableStateOf("") }
@@ -171,6 +172,19 @@ fun HomeScreen(
                 else "Mide tu estres percibido · 5 min",
                 onClick     = onGoToPSS10
             )
+            Spacer(Modifier.height(10.dp))
+
+            // NUEVA TARJETA: TERAPIA DE AUDIO
+            ClinicalTestCard(
+                iconType    = TestIcon.MOON, // Usamos la luna como ícono, o el que prefieras
+                accentColor = TealStart,
+                gradStart   = TealEnd,
+                title       = "Terapia de Audio",
+                subtitle    = "Sonidos para calmar la mente",
+                onClick     = onGoToAudio // <-- ¡OJO AQUÍ! Ya no es un comentario, es la función
+            )
+
+
 
             // ── Alerta preventiva ──────────────────────────────────────────
             val showAlert = gad7Results.size >= 2 && gad7Results.takeLast(2).all { it.score > 9 }

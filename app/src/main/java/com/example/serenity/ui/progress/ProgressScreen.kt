@@ -124,9 +124,9 @@ fun ProgressScreen(viewModel: MoodViewModel = viewModel()) {
                     maxScore    = 40,
                     accentColor = TealStart,
                     ranges      = listOf(
-                        ScoreRange(0..13,  "Bajo",     SeverityMinimal),
-                        ScoreRange(14..26, "Moderado", SeverityModerate),
-                        ScoreRange(27..40, "Alto",     SeveritySevere)
+                        ScoreRange(0..13,  "Rango 0-13",     SeverityMinimal),
+                        ScoreRange(14..26, "Rango 14-26", SeverityModerate),
+                        ScoreRange(27..40, "Rango 27-40",     SeveritySevere)
                     )
                 )
                 3 -> MoodProgressSection(viewModel = viewModel)
@@ -156,7 +156,9 @@ fun TestProgressSection(
     val last          = results.last()
     val prev          = if (results.size >= 2) results[results.size - 2] else null
     val trend         = if (prev != null) last.first - prev.first else 0
-    val severityColor = ranges.firstOrNull { last.first in it.range }?.color ?: accentColor
+    val currentRange  = ranges.firstOrNull { last.first in it.range }
+    val severityColor = currentRange?.color ?: accentColor
+    val severityLabel = currentRange?.label ?: "Puntaje continuo"
 
     // ── KPI ───────────────────────────────────────────────────────────────
     Box(
@@ -182,17 +184,13 @@ fun TestProgressSection(
                     val trendIcon  = if (trend <= 0) "↓" else "↑"
                     val trendColor = if (trend <= 0) SeverityMinimal else SeveritySevere
                     val trendText  = if (trend == 0) "Sin cambio" else "${if (trend > 0) "+" else ""}$trend vs anterior"
-                    Surface(
-                        shape    = RoundedCornerShape(20.dp),
-                        color    = trendColor.copy(alpha = 0.15f),
-                        modifier = Modifier.padding(bottom = 6.dp)
-                    ) {
+                    Surface(shape = RoundedCornerShape(20.dp), color = severityColor.copy(alpha = 0.2f)) {
                         Text(
-                            "$trendIcon $trendText",
-                            fontSize   = 11.sp,
-                            color      = trendColor,
-                            fontWeight = FontWeight.Medium,
-                            modifier   = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
+                            severityLabel, // <--- AHORA USA LA ETIQUETA DEL RANGO
+                            fontSize   = 12.sp,
+                            color      = severityColor,
+                            fontWeight = FontWeight.SemiBold,
+                            modifier   = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
                         )
                     }
                 }
@@ -281,7 +279,10 @@ fun TestProgressSection(
         Surface(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp), color = SurfaceGlass) {
             Column(modifier = Modifier.padding(14.dp)) {
                 results.reversed().forEachIndexed { index, (score, severity) ->
-                    val rangeColor = ranges.firstOrNull { score in it.range }?.color ?: accentColor
+                    val currentHistRange = ranges.firstOrNull { score in it.range }
+                    val rangeColor = currentHistRange?.color ?: accentColor
+                    val histLabel  = currentHistRange?.label ?: "Puntaje continuo"
+
                     Row(
                         modifier          = Modifier.fillMaxWidth().padding(vertical = 6.dp),
                         verticalAlignment = Alignment.CenterVertically
@@ -317,7 +318,7 @@ fun TestProgressSection(
                         )
                         Surface(shape = RoundedCornerShape(20.dp), color = rangeColor.copy(alpha = 0.15f)) {
                             Text(
-                                severity.replaceFirstChar { it.uppercase() },
+                                histLabel, // <--- AQUÍ SE MUESTRA "Rango 14-26"
                                 fontSize = 10.sp, color = rangeColor,
                                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
                             )

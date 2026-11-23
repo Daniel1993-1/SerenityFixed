@@ -24,6 +24,7 @@ import com.example.serenity.ui.MoodViewModel
 import com.example.serenity.ui.components.SerenityBackground
 import com.example.serenity.ui.theme.*
 import com.google.firebase.auth.FirebaseAuth
+import androidx.compose.ui.text.style.TextDecoration
 
 @Composable
 fun ProfileScreen(
@@ -37,6 +38,7 @@ fun ProfileScreen(
     val phq9Count    = viewModel.phq9Results.size
     val gad7Count    = viewModel.gad7Results.size
     val pss10Count   = viewModel.pss10Results.size
+    var showDeleteDialog by remember { mutableStateOf(false) }
 
     var showLogoutDialog by remember { mutableStateOf(false) }
 
@@ -62,6 +64,39 @@ fun ProfileScreen(
             },
             dismissButton = {
                 TextButton(onClick = { showLogoutDialog = false }) {
+                    Text("Cancelar", color = TextWhite50)
+                }
+            }
+        )
+    }
+    if (showDeleteDialog) {
+        AlertDialog(
+            onDismissRequest = { showDeleteDialog = false },
+            containerColor   = Color(0xFF1C1B1F),
+            title = { Text("Eliminar cuenta", fontWeight = FontWeight.Bold, color = SeveritySevere) },
+            text  = {
+                Text("¿Estás seguro/a? Esta acción es IRREVERSIBLE. Se eliminarán todos tus datos, tu historial de cuestionarios y tu cuenta. No podrás recuperarla.", color = TextWhite70)
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        showDeleteDialog = false
+                        viewModel.deleteAccount(
+                            onSuccess = {
+                                auth.signOut()
+                                onLogout() // Redirige al login
+                            },
+                            onError = { msg ->
+                                // Aquí podrías mostrar un Toast o un Snackbar con el mensaje de error
+                                println("Error: $msg")
+                            }
+                        )
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = SeveritySevere)
+                ) { Text("Sí, eliminar", color = TextWhite) }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDeleteDialog = false }) {
                     Text("Cancelar", color = TextWhite50)
                 }
             }
@@ -269,7 +304,33 @@ fun ProfileScreen(
                 Text("Cerrar sesion", fontSize = 16.sp, color = SeveritySevere, fontWeight = FontWeight.SemiBold)
             }
 
+            Spacer(Modifier.height(8.dp)) // Reducimos un poco el espacio
+
+            // Boton eliminar cuenta (Habeas Data)
+            TextButton(
+                onClick = { showDeleteDialog = true },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                // Icono de papelera (necesitas importar androidx.compose.material.icons.outlined.Delete)
+                Icon(
+                    imageVector = Icons.Outlined.Delete,
+                    contentDescription = null,
+                    tint = SeveritySevere.copy(alpha = 0.8f),
+                    modifier = Modifier.size(18.dp)
+                )
+                Spacer(Modifier.width(6.dp))
+                Text(
+                    text = "Eliminar mi cuenta y todos mis datos",
+                    color = SeveritySevere.copy(alpha = 0.8f),
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium,
+                    textDecoration = TextDecoration.Underline // Esto le da aspecto de enlace
+                )
+            }
+
             Spacer(Modifier.height(16.dp))
+
+
         }
     }
 }

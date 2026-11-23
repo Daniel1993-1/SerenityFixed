@@ -267,28 +267,51 @@ private fun PrivacyPolicyDialog(onDismiss: () -> Unit) {
                 Spacer(Modifier.height(16.dp))
 
                 PolicySection(
-                    title = "¿Qué datos recopilamos?",
-                    body  = "Nombre, correo electrónico, respuestas a cuestionarios psicológicos validados (PHQ-9, GAD-7, PSS-10) y registros de estado de ánimo."
+                    title = "1. Responsable del Tratamiento",
+                    body  = "Daniel Moreno Rengifo, como autor del proyecto Serenity de la Institución Universitaria de Envigado, es el responsable del tratamiento de los datos personales recolectados a través de esta aplicación."
                 )
                 PolicySection(
-                    title = "¿Para qué los usamos?",
-                    body  = "Exclusivamente para ofrecerte seguimiento personalizado de tu bienestar emocional. No compartimos ni vendemos tus datos a terceros."
+                    title = "2. Datos que Recolectamos (Minimización)",
+                    body  = "En cumplimiento del principio de minimización de datos, Serenity solo solicita la información estrictamente necesaria: " +
+                            "(a) Nombre y correo electrónico para la creación de la cuenta; (b) Respuestas a los cuestionarios psicométricos validados (GAD-7, PHQ-9, PSS-10); y " +
+                            "(c) Registros voluntarios del estado de ánimo. No recolectamos datos de geolocalización, contactos ni identificadores de publicidad."
                 )
                 PolicySection(
-                    title = "¿Dónde se almacenan?",
-                    body  = "En Google Firebase (servidores con certificación ISO 27001). Tus datos están cifrados en tránsito y en reposo."
+                    title = "3. Finalidad del Tratamiento",
+                    body  = "Tus datos serán utilizados exclusivamente para: (a) Permitir el inicio de sesión seguro; " +
+                            "(b) Calcular tus puntajes psicométricos y mostrarte tu historial de evolución;" +
+                            " y (c) Generar recomendaciones de autocuidado. Tus datos NO serán vendidos, compartidos ni utilizados con fines publicitarios o comerciales."
                 )
                 PolicySection(
-                    title = "Datos sensibles de salud",
-                    body  = "Los resultados de los cuestionarios son datos sensibles según el Art. 5 de la Ley 1581/2012. Solo tú tienes acceso a ellos."
+                    title = "4. Naturaleza Sensible de los Datos",
+                    body  = "De acuerdo con el Artículo 5 de la Ley 1581 de 2012, los datos relacionados con tu estado de salud emocional son considerados datos sensibles. " +
+                            "Al aceptar esta política, otorgas tu consentimiento explícito para su tratamiento. Serenity no obliga al usuario a revelar esta información;" +
+                            " su diligenciamiento es estrictamente voluntario."
                 )
                 PolicySection(
-                    title = "Tus derechos",
-                    body  = "Puedes conocer, actualizar, rectificar y suprimir tus datos en cualquier momento desde la sección Perfil de la app."
+                    title = "5. Seguridad de la Información (Privacy by Design)",
+                    body  = "La información se almacena en Google Cloud Firebase. La aplicación implementa controles de seguridad de nivel de ingeniería:" +
+                            " (a) Autenticación mediante tokens JWT (las contraseñas nunca se guardan en texto plano); (b) Reglas de seguridad en la base de datos (Cloud Firestore) " +
+                            "limitando la lectura y escritura exclusivamente a los registros del propio usuario (request.auth.uid == userId); y (c) Cifrado de datos en tránsito y en reposo."
                 )
                 PolicySection(
-                    title = "⚠️ Aviso clínico importante",
-                    body  = "Serenity es una herramienta de apoyo al bienestar. Los resultados de los cuestionarios son orientativos y NO constituyen un diagnóstico clínico. Ante cualquier crisis de salud mental, consulta un profesional de salud."
+                    title = "6. Tus Derechos (Habeas Data)",
+                    body  = "Como titular de los datos, tienes derecho a: Conocer, actualizar, rectificar y suprimir tu información." +
+                            " Puedes ejercer estos derechos directamente desde la sección 'Perfil' de la app," +
+                            " donde puedes cerrar sesión y solicitar la eliminación de tu cuenta y datos asociados, o escribiendo al correo del investigador."
+                )
+                PolicySection(
+                    title = "7. Retención y Eliminación de Datos (Piloto)",
+                    body  = "En el marco del piloto de investigación de este trabajo de grado, los datos sensibles recolectados se utilizarán únicamente para evaluar la usabilidad y el funcionamiento del MVP." +
+                            " Una vez finalizado el periodo de prueba y realizada la entrega final del trabajo de grado, los datos serán eliminados de forma definitiva de los servidores de Firebase en un plazo máximo de 30 días. " +
+                            "Los participantes serán notificados previamente a través del correo electrónico registrado sobre el proceso de eliminación. En las publicaciones académicas (artículo y monografía) solo se reportarán resultados agregados y anónimos,  de modo que ningún participante pueda ser identificado individualmente."
+                )
+                PolicySection(
+                    title = "8. Aviso Clínico Importante",
+                    body  = "En el marco de la Ley 1616 de 2013 de Salud Mental, Serenity es una herramienta de automonitoreo y psicoeducación. " +
+                            "Los resultados de los cuestionarios son indicadores orientativos y NO constituyen un diagnóstico clínico. " +
+                            "Serenity NO sustituye la valoración, diagnóstico o tratamiento de un profesional de la salud mental. Si los resultados indican niveles elevados de malestar, " +
+                            "la app te derivará a las líneas oficiales de atención (Línea 106 o 123)."
                 )
 
                 Spacer(Modifier.height(20.dp))

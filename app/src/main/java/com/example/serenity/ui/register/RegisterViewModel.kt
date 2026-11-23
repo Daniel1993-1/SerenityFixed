@@ -54,13 +54,16 @@ class RegisterViewModel : ViewModel() {
                 val result = auth.createUserWithEmailAndPassword(email.trim(), password).await()
                 val uid    = result.user?.uid ?: throw Exception("No se obtuvo UID")
 
-                // 2. Guardar nombre en Firestore
+                // 2. Guardar nombre y datos de consentimiento en Firestore
                 db.collection("users").document(uid).set(
                     mapOf(
-                        "name"      to name.trim(),
-                        "email"     to email.trim(),
-                        "createdAt" to System.currentTimeMillis(),
-                        "consentAccepted" to true
+                        "name" to name.trim(),
+                        "email" to email.trim(),
+                        "createdAt" to com.google.firebase.Timestamp.now(),
+                        // ── EVIDENCIA DE CONSENTIMIENTO (Ley 1581) ──
+                        "consentAccepted" to true,
+                        "consentTimestamp" to com.google.firebase.Timestamp.now(),
+                        "consentPolicyVersion" to "v1.0 (Ley 1581 de 2012 - Colombia)"
                     )
                 ).await()
 
